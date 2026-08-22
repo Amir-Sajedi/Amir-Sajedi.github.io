@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Amir Sajedi — Backend Developer</title>
+<meta name="description" content="Amir Sajedi — backend-focused developer working in Python, Django, and system design.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --background: 42 15% 97%;
+    --foreground: 0 0% 9%;
+    --muted-foreground: 0 0% 40%;
+    --border: 0 0% 85%;
+    --primary: 25 25% 15%;
+    --card: 0 0% 100%;
+
+    --bg: hsl(var(--background));
+    --text: hsl(var(--foreground));
+    --text-dim: hsl(var(--muted-foreground));
+    --line: hsl(var(--border));
+    --ink: hsl(var(--primary));
+    --card-bg: hsl(var(--card));
+
+    --serif: 'Playfair Display', Georgia, serif;
+    --sans: 'Inter', system-ui, sans-serif;
+
+    --tdur: 1.4s;
+    --teasing: cubic-bezier(0.65, 0, 0.35, 1);
+  }
+
+  html.dark{
+    --background: 0 0% 8%;
+    --foreground: 42 15% 95%;
+    --muted-foreground: 0 0% 62%;
+    --border: 0 0% 20%;
+    --primary: 42 15% 92%;
+    --card: 0 0% 12%;
+  }
+
+  *{ box-sizing: border-box; margin: 0; padding: 0; }
+  html{ scroll-behavior: smooth; }
+
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior: auto; }
+    *{ animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+  }
+
+  *{
+    transition:
+      background-color var(--tdur) var(--teasing),
+      border-color var(--tdur) var(--teasing),
+      color var(--tdur) var(--teasing),
+      box-shadow var(--tdur) var(--teasing),
+      fill var(--tdur) var(--teasing),
+      stroke var(--tdur) var(--teasing);
+  }
+
+  body{
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-weight: 400;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    transition: background-color var(--tdur) var(--teasing), color var(--tdur) var(--teasing);
+  }
+
+  a{ color: inherit; }
+  ::selection{ background: var(--ink); color: var(--bg); }
+
+  :focus-visible{
+    outline: 1px solid var(--ink);
+    outline-offset: 4px;
+  }
+
+  .wrap{
+    max-width: 1040px;
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+
+
+  .theme-toggle{
+    position: fixed;
+    top: 28px;
+    right: 40px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--card-bg);
+    border: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+    transition:
+      background-color var(--tdur) var(--teasing),
+      border-color var(--tdur) var(--teasing),
+      box-shadow var(--tdur) var(--teasing),
+      transform 0.2s ease;
+    z-index: 10;
+    will-change: background-color, border-color;
+  }
+  .theme-toggle:hover{ transform: translateY(-1px); border-color: var(--ink); }
+  .theme-toggle svg{ width: 17px; height: 17px; stroke: var(--text); fill: none; }
+
+
+  .hero{
+    padding: 90px 0 90px;
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    grid-template-areas:
+      "top    photo"
+      "bottom photo";
+    gap: 60px;
+    align-items: start;
+  }
+  .hero-top{ grid-area: top; }
+  .hero-bottom{ grid-area: bottom; }
+
+  .name{
+    font-family: var(--serif);
+    font-weight: 800;
+    font-size: clamp(44px, 6.4vw, 76px);
+    letter-spacing: 0.01em;
+    line-height: 1;
+    margin-bottom: 26px;
+    text-transform: uppercase;
+  }
+
+  .role{
+    font-size: 13px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 40px;
+  }
+
+  .intro{
+    display: flex;
+    gap: 6px;
+    margin-bottom: 48px;
+  }
+  .dropcap{
+    font-family: var(--serif);
+    font-size: 68px;
+    line-height: 0.8;
+    color: hsl(var(--border));
+    font-weight: 500;
+  }
+  .intro p{
+    font-size: 17px;
+    max-width: 42ch;
+    padding-top: 10px;
+  }
+  .intro strong{ font-weight: 600; }
+
+  /* ---------- projects (between bio and connect) ---------- */
+  .projects-inline{
+    margin-bottom: 48px;
+  }
+  .projects-label{
+    font-size: 11.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 18px;
+  }
+  .inline-project{
+    display: block;
+    text-decoration: none;
+    padding: 15px 0;
+    border-top: 1px solid var(--line);
+  }
+  .inline-project:first-of-type{ border-top: none; padding-top: 0; }
+  .inline-project:hover .inline-project-name{ opacity: 0.6; }
+  .inline-project-top{
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+  .inline-project-name{
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: 17px;
+    transition: opacity 0.2s ease;
+  }
+  .inline-project-arrow{ font-size: 13px; color: var(--text-dim); }
+  .inline-project-desc{
+    font-size: 13.5px;
+    color: var(--text-dim);
+    margin-top: 3px;
+  }
+
+  
+  .connect-label{
+    font-size: 16px;
+    margin-bottom: 20px;
+  }
+
+  .link-list{
+    list-style: none;
+    font-size: 16px;
+  }
+  .link-list li{ margin-bottom: 12px; }
+  .link-list a{
+    text-decoration: underline;
+    text-decoration-color: var(--line);
+    text-underline-offset: 3px;
+  }
+  .link-list a:hover{ text-decoration-color: var(--text); }
+
+ 
+  .pfp-card{
+    grid-area: photo;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    max-width: 300px;
+    margin-inline: auto;
+    justify-self: end;
+    width: 70%;
+  }
+  .pfp-card img{
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 14px;
+  }
+  .pfp-placeholder{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    color: var(--text-dim);
+    text-align: center;
+    padding: 24px;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    border: 1px dashed var(--line);
+    border-radius: 10px;
+  }
+  .pfp-placeholder svg{
+    width: 34px;
+    height: 34px;
+    stroke: var(--text-dim);
+    fill: none;
+  }
+  .pfp-placeholder span{
+    font-size: 12.5px;
+    letter-spacing: 0.04em;
+  }
+  .pfp-placeholder small{
+    font-size: 11px;
+    color: hsl(var(--border));
+  }
+
+  @media (max-width: 820px){
+    .hero{
+      grid-template-columns: 1fr;
+      grid-template-areas:
+        "top"
+        "photo"
+        "bottom";
+      padding-top: 76px;
+      gap: 36px;
+    }
+    .wrap{ padding: 0 24px; }
+    .pfp-card{
+      width: 100%;
+      max-width: 260px;
+      justify-self: start;
+      margin-inline: 0;
+    }
+    .intro{ margin-bottom: 0; }
+  }
+
+  @media (max-width: 480px){
+    .wrap{ padding: 0 18px; }
+    .theme-toggle{ right: 18px; top: 18px; width: 36px; height: 36px; }
+    .pfp-card{ max-width: 220px; }
+  }
+
+  footer{ border-top: 1px solid var(--line); padding: 30px 0 48px; }
+  .footer-row{ font-size: 12.5px; color: var(--text-dim); }
+</style>
+</head>
+<body>
+
+<button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+  <svg id="iconMoon" viewBox="0 0 24 24" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+  </svg>
+</button>
+
+<main>
+  <div class="wrap">
+    <div class="hero">
+
+      <div class="hero-top">
+        <h1 class="name">Amir Sajedi</h1>
+        <div class="role">Backend Developer</div>
+
+        <div class="intro">
+          <span class="dropcap">I</span>
+          <p>'m Amir, a computer science student at IUST and backend developer, mainly
+          working in <strong>Python</strong> and <strong>Django</strong> — data modeling,
+          ORM design, and shipping real deployments.</p>
+        </div>
+      </div>
+
+      <div class="pfp-card">
+        <img src="pfpog1.png" alt="Amir Sajedi">
+      </div>
+
+      <div class="hero-bottom">
+        <div class="projects-inline">
+          <div class="projects-label">Selected projects</div>
+
+            <div class="inline-project-top">
+              <span class="inline-project-name"><a href="https://alphex.pythonanywhere.com">FinanceHub</a></span>
+              <span class="inline-project-arrow">↗</span>
+            </div>
+            <div class="inline-project-desc">Currency &amp; precious metals tracker, built with Django.</div>
+          </a>
+
+          
+        </div>
+
+        <p class="connect-label">If you'd like to connect, you can find me online:</p>
+        <ul class="link-list">
+          <li>On <a href="https://github.com/Amir-Sajedi">GitHub</a></li>
+          <li>On <a href="https://www.linkedin.com/in/amir-sajedi-b129b235a/">LinkedIn</a></li>
+          <li>Reach me by <a href="a_sajedi@mathdep.iust.ac.ir">email</a></li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap footer-row">
+    <span>© 2026 Amir Sajedi</span>
+  </div>
+</footer>
+
+<script>
+  const toggle = document.getElementById('themeToggle');
+  const root = document.documentElement;
+  const iconMoon = document.getElementById('iconMoon');
+
+  function applyTheme(dark){
+    root.classList.toggle('dark', dark);
+    iconMoon.innerHTML = dark
+      ? '<circle cx="12" cy="12" r="4.5"/><path d="M12 2v2M12 20v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M2 12h2M20 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4"/>'
+      : '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>';
+  }
+
+  const stored = localStorage.getItem('theme');
+  applyTheme(stored === 'dark');
+
+  toggle.addEventListener('click', () => {
+    const isDark = !root.classList.contains('dark');
+    applyTheme(isDark);
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+  });
+</script>
+
+</body>
+</html>
